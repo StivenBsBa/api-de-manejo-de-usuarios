@@ -1,4 +1,4 @@
-import UserModel from '../schemas/user.js';
+import UserModel from '../../schemas/user.js';
 
 const profileUserController = async (req, res) => {
     try {

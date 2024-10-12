@@ -1,12 +1,11 @@
 import { Type } from '@sinclair/typebox';
 import Ajv from 'ajv';
 import addErrors from 'ajv-errors';
-import { nameDtoschema, surnameDtoschema } from '../controllers/dtoType.js';
+import { passwordDtoschema } from '../../controllers/UserControllers/dtoType.js';
 
-const updateDataUser = Type.Object(
+const unregisterUser = Type.Object(
     {
-        name: nameDtoschema,
-        surname: surnameDtoschema,
+        password: passwordDtoschema,
     },
     {
         additionalProperties: false,
@@ -18,11 +17,12 @@ const updateDataUser = Type.Object(
 
 const ajv = new Ajv({ allErrors: true });
 
+ajv.addFormat('password', /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/);
 addErrors(ajv);
 
-const validateSchema = ajv.compile(updateDataUser);
+const validateSchema = ajv.compile(unregisterUser);
 
-const updateDataUserDto = (req, res, next) => {
+const unregisterUserDto = (req, res, next) => {
     const isDTOValid = validateSchema(req.body);
 
     if (!isDTOValid)
@@ -32,4 +32,4 @@ const updateDataUserDto = (req, res, next) => {
     next();
 };
 
-export default updateDataUserDto;
+export default unregisterUserDto;

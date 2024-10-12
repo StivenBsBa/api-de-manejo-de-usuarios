@@ -1,6 +1,6 @@
 import { compare, hash } from 'bcrypt';
-import UserModel from '../schemas/user.js';
-import { SALT } from '../constants/salt.js';
+import UserModel from '../../schemas/user.js';
+import { SALT } from '../../constants/salt.js';
 
 const updatePasswordController = async (req, res) => {
     try {

@@ -1,5 +1,5 @@
 import { compare } from 'bcrypt';
-import UserModel from '../schemas/user.js';
+import UserModel from '../../schemas/user.js';
 import { SignJWT } from 'jose';
 
 const LoginUserController = async (req, res) => {

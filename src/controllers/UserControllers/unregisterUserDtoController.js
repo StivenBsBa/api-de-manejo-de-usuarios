@@ -1,10 +1,10 @@
 import { compare } from 'bcrypt';
-import UserModel from '../schemas/user.js';
+import UserModel from '../../schemas/user.js';
 
-const updateEmailUserController = async (req, res) => {
+const unregisterUserController = async (req, res) => {
     try {
         const { id } = req;
-        const { email, password } = req.body;
+        const { password } = req.body;
 
         const existingUserById = await UserModel.findById(id).exec();
         if (!existingUserById)
@@ -18,16 +18,17 @@ const updateEmailUserController = async (req, res) => {
             return res
                 .status(401)
                 .send({ Error: ['credenciales incorrectas'] });
-        existingUserById.email = email;
 
-        await existingUserById.save();
+        await existingUserById.deleteOne();
 
-        return res.send({ Error: ['Email del usuario actualizado'] });
+        return res.send({ Error: ['usuario eliminado'] });
     } catch (error) {
         // Manejo de errores
         console.error(error);
-        return res.status(500).send({ Error: ['Error al iniciar sesion'] });
+        return res
+            .status(500)
+            .send({ Error: ['Error al eliminar al usuario'] });
     }
 };
 
-export default updateEmailUserController;
+export default unregisterUserController;

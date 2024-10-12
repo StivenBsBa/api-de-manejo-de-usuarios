@@ -1,13 +1,15 @@
 import { Type } from '@sinclair/typebox';
 import Ajv from 'ajv';
-import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
-import { emailDtoschema, passwordDtoschema } from '../controllers/dtoType.js';
+import {
+    nameDtoschema,
+    surnameDtoschema,
+} from '../../controllers/UserControllers/dtoType.js';
 
-const updateEmailUser = Type.Object(
+const updateDataUser = Type.Object(
     {
-        email: emailDtoschema,
-        password: passwordDtoschema,
+        name: nameDtoschema,
+        surname: surnameDtoschema,
     },
     {
         additionalProperties: false,
@@ -19,14 +21,11 @@ const updateEmailUser = Type.Object(
 
 const ajv = new Ajv({ allErrors: true });
 
-ajv.addFormat('password', /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/);
-
-addFormats(ajv, ['email']).addKeyword('kind').addKeyword('modifer');
 addErrors(ajv);
 
-const validateSchema = ajv.compile(updateEmailUser);
+const validateSchema = ajv.compile(updateDataUser);
 
-const updateEmailUserDto = (req, res, next) => {
+const updateDataUserDto = (req, res, next) => {
     const isDTOValid = validateSchema(req.body);
 
     if (!isDTOValid)
@@ -36,4 +35,4 @@ const updateEmailUserDto = (req, res, next) => {
     next();
 };
 
-export default updateEmailUserDto;
+export default updateDataUserDto;

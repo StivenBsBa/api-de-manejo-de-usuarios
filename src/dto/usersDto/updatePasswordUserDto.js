@@ -3,7 +3,7 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors'; // Asegúrate de importar ajv-errors
 
-import { passwordDtoschema } from '../controllers/dtoType.js';
+import { passwordDtoschema } from '../../controllers/UserControllers/dtoType.js';
 
 // Definición del esquema
 const updatePasswordUser = Type.Object(
