@@ -1,12 +1,25 @@
 import mongoose from 'mongoose';
+import { config } from 'dotenv';
 
-const connectDB = (url) =>
+config();
+
+const connectDB = () => {
+    const MONGODB_URI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}`;
+
     mongoose
-        .connect(url, { dbName: process.env.MONGO_DB })
-        .then(() => console.log('Base de datos conectada'))
+        .connect(MONGODB_URI, {
+            dbName: process.env.MONGO_DB,
+            authSource: 'admin',
+            authMechanism: process.env.DB_MECHANISM,
+            serverSelectionTimeoutMS: 30000, // Aumenta el tiempo de espera (en milisegundos)
+        })
+        .then(() => {
+            console.log('Base de Datos Conectada');
+        })
         .catch((err) => {
-            console.error('Error conectando a la base de datos:', err);
-            process.exit(1); // Sale del proceso si hay error en la conexión
+            console.error('Error al conectar a la base de datos:', err);
+            process.exit(1); // Detener la aplicación si hay un error de conexión
         });
+};
 
 export default connectDB;
